@@ -6,6 +6,7 @@ import pl.waw.wawvote.model.StreamItem;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,24 +22,38 @@ public class MultichainAPI {
         System.out.println("Node opened");
     }
 
-    public void subscribeList() {
+    public void subscribeList(String streamName) {
         ShellCommandExecutor obj = new ShellCommandExecutor();
-        obj.executeCommand(path + "multichain-cli main_chain2 subscribe stream1");
+        obj.executeCommand(path + "multichain-cli main_chain2 subscribe " + streamName);
     }
 
-    public void addToChain(Integer vote) {
-        //publish stream1 key1 736f6d65206f746865722064617461
+    public void addToChain(String streamName, String key, Integer data) {
         ShellCommandExecutor obj = new ShellCommandExecutor();
-        obj.executeCommand(path + "multichain-cli main_chain2 publish stream1 key1 0" + vote);
+        obj.executeCommand(path + "multichain-cli main_chain2 publish " + streamName + " " + key + " " + data);
     }
 
-    public List<Integer> getAllVotes() {
+    public List<Integer> getAllDataFromChain(String streamName) {
+        List<Integer> data = new LinkedList<>();
+        List<Integer> allData = new LinkedList<>();
+        Integer count = 10;
+        Integer start = 0;
+
+        do {
+            allData.addAll(data);
+            data = getSpecificAmountOfData(start, count, streamName);
+            start += count;
+        }while(data.size() > 0);
+
+        return allData;
+    }
+
+    private List<Integer> getSpecificAmountOfData(Integer start, Integer count, String streamName){
         ShellCommandExecutor obj = new ShellCommandExecutor();
-        String result = obj.executeCommand(path + "multichain-cli main_chain2 liststreamitems stream1");
+
+        String result = obj.executeCommand(path + "multichain-cli main_chain2 liststreamitems " + streamName + " false " + count + " " + start);
 
         Gson gson = new Gson();
         StreamItem[] streamItems = gson.fromJson(result, StreamItem[].class);
-
 
         return Arrays.stream(streamItems).map(StreamItem::getData).collect(Collectors.toList());
     }

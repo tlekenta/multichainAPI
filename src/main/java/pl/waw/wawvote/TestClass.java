@@ -10,13 +10,8 @@ public class TestClass {
         MultichainAPI multichainAPI = new MultichainAPI();
 
         multichainAPI.openNode();
-        multichainAPI.subscribeList();
-//        multichainAPI.addToChain(112);
-//        multichainAPI.addToChain(112);
-//        multichainAPI.addToChain(112);
-//        multichainAPI.addToChain(112);
-//        System.out.println(multichainAPI.getAllVotes());
-        System.out.println(multichainAPI.getAllVotes());
+        multichainAPI.subscribeList("stream1");
+        System.out.println(multichainAPI.getAllDataFromChain("stream1"));
     }
 
 }
