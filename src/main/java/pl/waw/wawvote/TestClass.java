@@ -11,11 +11,11 @@ public class TestClass {
 
         multichainAPI.openNode();
         multichainAPI.subscribeList();
-        System.out.println(multichainAPI.getAllVotes());
-        multichainAPI.addToChain(112);
-        multichainAPI.addToChain(112);
-        multichainAPI.addToChain(112);
-        multichainAPI.addToChain(112);
+//        multichainAPI.addToChain(112);
+//        multichainAPI.addToChain(112);
+//        multichainAPI.addToChain(112);
+//        multichainAPI.addToChain(112);
+//        System.out.println(multichainAPI.getAllVotes());
         System.out.println(multichainAPI.getAllVotes());
     }
 
